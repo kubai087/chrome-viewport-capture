@@ -62,6 +62,10 @@ export function formatPreviewPercent(scale) {
   return Number.isInteger(percentage) ? `${percentage}%` : `${percentage.toFixed(1)}%`;
 }
 
+export function shouldMaximizePreviewWindow(windowState) {
+  return windowState !== "fullscreen" && windowState !== "locked-fullscreen";
+}
+
 export function buildScreenshotFilename(settings, date = new Date()) {
   const timestamp = date.toISOString().replace(/[.:]/g, "-");
   return `viewport-${settings.width}x${settings.height}-100pct-retina-${timestamp}.png`;

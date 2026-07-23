@@ -7,6 +7,7 @@ import {
   formatPreviewPercent,
   isScriptableUrl,
   normalizeSettings,
+  shouldMaximizePreviewWindow,
 } from "../capture-core.js";
 
 test("normalizeSettings accepts a valid viewport request", () => {
@@ -73,6 +74,17 @@ test("calculatePreviewScale validates the available area", () => {
 test("formatPreviewPercent uses at most one decimal place", () => {
   assert.equal(formatPreviewPercent(0.9), "90%");
   assert.equal(formatPreviewPercent(0.8333), "83.3%");
+});
+
+test("preview keeps native fullscreen windows fullscreen", () => {
+  assert.equal(shouldMaximizePreviewWindow("fullscreen"), false);
+  assert.equal(shouldMaximizePreviewWindow("locked-fullscreen"), false);
+});
+
+test("preview maximizes non-fullscreen windows for the largest work area", () => {
+  assert.equal(shouldMaximizePreviewWindow("normal"), true);
+  assert.equal(shouldMaximizePreviewWindow("maximized"), true);
+  assert.equal(shouldMaximizePreviewWindow("minimized"), true);
 });
 
 test("buildScreenshotFilename is stable and filesystem-safe", () => {

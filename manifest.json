@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "视口截图",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "用 F12 同款视口模拟预览真实页面尺寸，并一键保存 Retina 截图。",
   "minimum_chrome_version": "118",
   "permissions": [

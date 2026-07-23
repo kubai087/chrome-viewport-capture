@@ -4,6 +4,7 @@ import {
   formatPreviewPercent,
   isScriptableUrl,
   normalizeSettings,
+  shouldMaximizePreviewWindow,
 } from "./capture-core.js";
 
 const STATUS_KEY = "captureState";
@@ -114,6 +115,10 @@ async function restoreWindow(windowSnapshot) {
     return;
   }
 
+  if (current.state === windowSnapshot.state) {
+    return;
+  }
+
   await chrome.windows.update(windowSnapshot.id, { state: windowSnapshot.state });
 }
 
@@ -166,9 +171,8 @@ async function stopPreview({ updateState = true } = {}) {
 async function maximizePreviewWindow(windowId) {
   const windowInfo = await chrome.windows.get(windowId);
 
-  if (windowInfo.state === "fullscreen" || windowInfo.state === "locked-fullscreen") {
-    await chrome.windows.update(windowId, { state: "normal" });
-    await sleep(180);
+  if (!shouldMaximizePreviewWindow(windowInfo.state)) {
+    return;
   }
 
   await chrome.windows.update(windowId, { state: "maximized" });
