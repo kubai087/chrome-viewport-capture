@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>视口截图</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="app-header">
+        <span class="app-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5.5 4.5h13a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2Z" />
+            <path d="M3.5 8h17M8 4.5v3.3M16 4.5v3.3" />
+          </svg>
+        </span>
+        <div class="header-copy">
+          <h1>视口截图</h1>
+          <p>按目标尺寸检查页面布局</p>
+        </div>
+      </header>
+
+      <form id="capture-form" novalidate>
+        <section class="viewport-section" aria-labelledby="viewport-heading">
+          <h2 id="viewport-heading" class="section-title">目标视口</h2>
+
+          <div class="preset-group" role="group" aria-labelledby="desktop-presets-label">
+            <p id="desktop-presets-label" class="preset-group-label">常用桌面</p>
+            <div class="preset-grid preset-grid--desktop">
+              <button
+                type="button"
+                class="preset preset--compact"
+                data-width="1920"
+                data-height="1080"
+              >
+                1920×1080
+              </button>
+              <button
+                type="button"
+                class="preset preset--compact"
+                data-width="1440"
+                data-height="900"
+              >
+                1440×900
+              </button>
+              <button
+                type="button"
+                class="preset preset--compact"
+                data-width="1366"
+                data-height="768"
+              >
+                1366×768
+              </button>
+            </div>
+          </div>
+
+          <div class="preset-group" role="group" aria-labelledby="mac-presets-label">
+            <p id="mac-presets-label" class="preset-group-label">Mac 内建屏幕</p>
+            <div class="preset-grid preset-grid--mac">
+              <button
+                type="button"
+                class="preset preset--device"
+                data-width="1728"
+                data-height="1117"
+              >
+                <span class="preset-name">Mac 16 英寸</span>
+                <span class="preset-value">1728×1117</span>
+              </button>
+              <button
+                type="button"
+                class="preset preset--device"
+                data-width="1512"
+                data-height="982"
+              >
+                <span class="preset-name">Mac 14 英寸</span>
+                <span class="preset-value">1512×982</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="custom-size">
+            <div class="custom-size-heading">
+              <span>自定义尺寸</span>
+              <span class="unit-label">CSS px</span>
+            </div>
+            <fieldset class="field-group dimensions-group">
+              <legend class="sr-only">自定义视口尺寸</legend>
+              <label class="field">
+                <span class="field-label">宽度</span>
+                <input
+                  id="width"
+                  name="width"
+                  type="number"
+                  inputmode="numeric"
+                  min="400"
+                  max="3840"
+                  step="1"
+                  value="1920"
+                  required
+                />
+              </label>
+              <span class="dimension-symbol" aria-hidden="true">×</span>
+              <label class="field">
+                <span class="field-label">高度</span>
+                <input
+                  id="height"
+                  name="height"
+                  type="number"
+                  inputmode="numeric"
+                  min="300"
+                  max="2160"
+                  step="1"
+                  value="1080"
+                  required
+                />
+              </label>
+            </fieldset>
+          </div>
+        </section>
+
+        <dl class="capture-rules" aria-label="渲染与输出规则">
+          <div class="rule-row">
+            <dt>页面渲染</dt>
+            <dd>目标尺寸 · 100%</dd>
+          </div>
+          <div class="rule-row">
+            <dt>屏幕预览</dt>
+            <dd>自动适应窗口</dd>
+          </div>
+          <div class="rule-row">
+            <dt>截图输出</dt>
+            <dd>Retina · 2× PNG</dd>
+          </div>
+        </dl>
+
+        <button id="capture-button" class="primary-button" type="submit">
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8.4 6.4 9.5 4.8h5l1.1 1.6h2.9a2 2 0 0 1 2 2v8.7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V8.4a2 2 0 0 1 2-2h2.9Z" />
+            <circle cx="12" cy="12.7" r="3.4" />
+          </svg>
+          <span class="button-label">预览并保存截图</span>
+        </button>
+
+        <button id="stop-button" class="secondary-button" type="button" hidden>
+          退出预览并恢复
+        </button>
+
+        <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+      </form>
+    </main>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
